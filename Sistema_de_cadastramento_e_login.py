@@ -1,6 +1,3 @@
-Esse foi o primeiro codigo que programei em Python. Usei meus conhecimentos sobre IFs, ELSEs, Dicts, Utilização de pacotes, Funções
-entradas e Saídas para faze-lo
-
 #######################################################
 # Este programa permite que usuários façam login ou se cadastrem
 # e armazena suas informações em um arquivo JSON.
@@ -13,14 +10,14 @@ import json
 # A função a seguir é responsável pela leitura das informações do arquivo JSON
 def carregar_usuarios():
     try:
-        with open('usuarios.txt', 'r') as f:
+        with open('usuarios.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError:
         return {}
 
 # E essa função, pelo armazenamento das informações de login no arquivo JSON
 def salvar_usuarios(usuarios):
-    with open('usuarios.txt', 'w') as f:
+    with open('usuarios.json', 'w') as f:
         json.dump(usuarios, f)
 
 ## Sistema principal
