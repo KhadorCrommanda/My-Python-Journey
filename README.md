@@ -1,2 +1,2 @@
 # My-Python-Journey
-Nesse repositório, colocarei os códigos/scripts que criei de acordo com oque aprendi sobre Python.
+Este repositório é destinado a iniciantes em Python e contém códigos comentados que cobrem uma variedade de tópicos, desde os conceitos básicos de programação até a criação de projetos mais complexos. Os códigos estão organizados por temas e dificuldade, com exemplos práticos de como utilizar bibliotecas populares como Pandas e NumPy. O objetivo deste repositório é fornecer um guia útil para aqueles que estão começando a programar em Python, com códigos bem comentados que ajudam a entender os conceitos e as técnicas usadas na programação. Seja bem-vindo e aproveite o conteúdo!
