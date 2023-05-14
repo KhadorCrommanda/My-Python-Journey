@@ -22,7 +22,7 @@ def save_users(users):
         json.dump(users, f)
 
 # This function contains all the code responsible for the login process.
-def login():
+def login(users):
     while True:
         name = input("Hello, please enter your username: ")
         if (name in users):
@@ -36,17 +36,18 @@ def login():
             print("Username not found.")
             option = input("Enter '1' to try again or '2' to register a new user: ")
             if option == "2":
-                register_user()
+                register_user(users)
             elif option != "1":
                 print("Invalid option, exiting program.")
                 return # Ends the login() function with failure
 
 # This function allows a new user to be registered.
-def register_user():
+def register_user(users):
     while True:
         name = input("Enter a username: ")
-        if(name in users.keys()):
+        if(name in users):
             print("This username already exists, please try another one.")
+            continue
             # If the username already exists, the user is prompted to enter another name.
         else:
             try:
@@ -61,7 +62,7 @@ def register_user():
                 return
 
 # This function allows a user to delete their account.
-def delete_account():
+def delete_account(users):
     while True:
         name = input("Please enter your username: ")
         if(name in users.keys()):
@@ -78,12 +79,21 @@ def delete_account():
             print("User not found.")
 
 # Main program
-users = load_users() # This code loads the JSON information into the "users" dictionary.
-option = input("Enter '1' to log in, '2' to register a new user, or '3' to delete your account: ")
-if(option == "1"):
-    login()
-elif(option == "2"):
-    register_user()
-elif(option == "3"):
-    delete_account()
-else:
+def main():
+    users = load_users() # This code loads the JSON information into the "users" dictionary.
+    options_menu = ''' Welcome to the options
+    Enter '1' to log in
+    Enter '2' to register a new user
+    Enter '3' to delete your account
+    '''
+    option = input(options_menu)
+    if(option == "1"):
+        login(users)
+    elif(option == "2"):
+        register_user(users)
+    elif(option == "3"):
+        delete_account(users)
+    else:
+        print("Invalid option.")
+
+main()
