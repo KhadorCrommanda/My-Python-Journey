@@ -1,9 +1,9 @@
-#################################################################
+##################################################################
 #Sistema bancario feito por KhadorCrommanda.
 #O script criará dois arquivos o primeiro chamado 'operacoes.txt' 
 #serve para armazenar todos os movimentos financeiros.
 #e 'dados_bancarios.json' que serve para armazenar 
-#################################################################
+##################################################################
 import json
 
 limite = 500.00
