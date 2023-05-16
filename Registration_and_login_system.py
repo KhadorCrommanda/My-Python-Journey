@@ -7,6 +7,7 @@
 #######################################################
 
 import json
+import time
 
 # This function reads user information from the JSON file.
 def load_users():
@@ -23,60 +24,107 @@ def save_users(users):
 
 # This function contains all the code responsible for the login process.
 def login(users):
-    while True:
-        name = input("Hello, please enter your username: ")
-        if (name in users):
-            password = int(input(f"Welcome back, {name}! Please enter your password: "))
-            if (password == users[name]["Password"]):
-                print(f"Access granted for user '{name}'.")
-                return # Ends the login() function successfully
-            else:
-                print("Incorrect password, please try again.")
+    username_valid = False
+    tries = 0
+    while not username_valid:
+        username = input("Hello! Enter your username: ") 
+        if (username not in users):
+            print("The given username dont exist.")
+            tries = tries+1
+            if (tries == 3):
+                print(f"\nThree incorrect entries. Do you want to register the user {username}?\n")
+                option = input("Y: [Yes] N: [No]")
+                if(option == 'Y'):
+                    register_user(users, username, username_valid = True)
+                elif(option != 'N'):
+                    print("Invalid option.")
+                    break
         else:
-            print("Username not found.")
-            option = input("Enter '1' to try again or '2' to register a new user: ")
-            if option == "2":
-                register_user(users)
-            elif option != "1":
-                print("Invalid option, exiting program.")
-                return # Ends the login() function with failure
+            username_valid = True
+    
+    password_valid = False
+    while not password_valid:
+        password = input(f"Hello, {username}! Please, enter your password: ")
+        if(password != users[username]['Password']):
+            print("Incorrect password. Try again.")
+        else:
+            print("Wait... Logging-in.")
+            time.sleep(1)
+            print(f"User {username} logged.")
+            password_valid = True
 
 # This function allows a new user to be registered.
-def register_user(users):
-    while True:
-        name = input("Enter a username: ")
-        if(name in users):
-            print("This username already exists, please try another one.")
-            continue
-            # If the username already exists, the user is prompted to enter another name.
+def register_user(users, username, username_valid):
+    while not username_valid:
+        username = input("Please, enter a username: ")
+        if(username in users):
+            print("The chosed username alread exist. Try again")
         else:
-            try:
-                password = int(input("Enter a password: "))
-            except:
-                print("Error 0x1: Your password probably contains letters (only numbers are allowed).")
-                # If the password contains letters instead of numbers, the user is prompted to enter another password.
-            else:
-                users[name] = {"User": name, "Password": password} # If the chosen username and password are valid, a new user is registered.
-                print(f"User '{name}' registered successfully!")
-                save_users(users)
-                return
+            username_valid = True
+
+    password_valid = False
+    while not password_valid:
+        password = input(f"Hello, {username}, enter a password: ")
+        if (len(password) < 8):
+            print("The password needs to have 8 or more characters.")
+        else:
+            print("Registering user. Please, wait...")
+            time.sleep(2)
+            users.update({username: {'User' : username, 'Password' : password}})
+            save_users(users)
+            print("User successful registered.")
+            return
 
 # This function allows a user to delete their account.
 def delete_account(users):
-    while True:
-        name = input("Please enter your username: ")
-        if(name in users.keys()):
-            password = int(input("Please enter your account password: "))
-            if(password == users[name]["Password"]):
-                print("Deleting account from the system...\n")
-                del users[name]            
-                print("Account deleted successfully.")
-                save_users(users)
-                return
-            else:
-                print("Incorrect password, please try again.")
+    username_valid = False
+    while not username_valid:
+        username = input("Enter your username: ")
+        if (username not in users):
+            print("The given username dont exist. Try again...")
         else:
-            print("User not found.")
+            username_valid = True
+    
+    password_valid = False
+    while not password_valid:
+        password = input("Enter your password: ")
+        if (password != users[username]['Password']):
+            print("Wrong password. Try again...")
+        else:
+            print("Deleting account. Please wait...")
+            time.sleep(3)
+            del(users[username])
+            print("Account successful deleted.")
+            save_users(users)
+            password_valid = True
+
+# This function allows a user to change your password.
+def change_password(users):
+    username_valid = False
+    while not username_valid:
+        name = input("To change your password, please enter your username: ")
+        if name in users:
+            username_valid = True
+        else:
+            print("Wrong username, please try again...")
+
+    old_password_valid = False
+    while not old_password_valid:
+        old_password = int(input("Enter your old password: "))
+        if (old_password == users[name]['Password']):
+            old_password_valid = True
+        else:
+            print("Wrong password. Try again...")
+
+    new_password_valid = False
+    while not new_password_valid:
+        new_password = int(input("Enter your new password: "))
+        # aqui você pode adicionar outras verificações ou restrições para a nova senha
+        if new_password == old_password:
+            print("New password cannot be the same as the old password.")
+        else:
+            users[name]['password'] = new_password
+            print("Password changed successfully!")
 
 # Main program
 def main():
@@ -85,14 +133,17 @@ def main():
     Enter '1' to log in
     Enter '2' to register a new user
     Enter '3' to delete your account
+    Enter '4' to change your password
     '''
     option = input(options_menu)
     if(option == "1"):
         login(users)
     elif(option == "2"):
-        register_user(users)
+        register_user(users, username = None, username_valid = False)
     elif(option == "3"):
         delete_account(users)
+    elif(option == '4'):
+        change_password(users)
     else:
         print("Invalid option.")
 
