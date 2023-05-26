@@ -125,6 +125,8 @@ def change_password(users):
         else:
             users[name]['password'] = new_password
             print("Password changed successfully!")
+            save_users(users)
+            break
 
 # Main program
 def main():
