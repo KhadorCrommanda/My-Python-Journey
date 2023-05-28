@@ -9,7 +9,7 @@
 import json
 import time
 
-# This function reads user information from the JSON file.
+
 def load_users():
     try:
         with open('Users.json', 'r') as f:
@@ -17,12 +17,12 @@ def load_users():
     except FileNotFoundError:
         return {}
 
-# This function saves login information to the JSON file.
+
 def save_users(users):
     with open('Users.json', 'w') as f:
         json.dump(users, f)
 
-# This function contains all the code responsible for the login process.
+
 def login(users):
     username_valid = False
     tries = 0
@@ -53,7 +53,7 @@ def login(users):
             print(f"User {username} logged.")
             password_valid = True
 
-# This function allows a new user to be registered.
+
 def register_user(users, username, username_valid):
     while not username_valid:
         username = input("Please, enter a username: ")
@@ -75,7 +75,7 @@ def register_user(users, username, username_valid):
             print("User successful registered.")
             return
 
-# This function allows a user to delete their account.
+
 def delete_account(users):
     username_valid = False
     while not username_valid:
@@ -98,7 +98,7 @@ def delete_account(users):
             save_users(users)
             password_valid = True
 
-# This function allows a user to change your password.
+
 def change_password(users):
     username_valid = False
     while not username_valid:
@@ -128,7 +128,7 @@ def change_password(users):
             save_users(users)
             break
 
-# Main program
+
 def main():
     users = load_users() # This code loads the JSON information into the "users" dictionary.
     options_menu = ''' Welcome to the options
