@@ -148,5 +148,5 @@ def main():
         change_password(users)
     else:
         print("Invalid option.")
-
-main()
+if __name__ == '__main__':
+    main()
